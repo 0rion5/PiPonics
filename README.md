@@ -1,2 +1,2 @@
 # PiPonics
-A modified version of mhajda's software. Aquaponics with Raspberry Pi
+Aquaponics with Raspberry Pi (A modified version of mhajda's software. )
