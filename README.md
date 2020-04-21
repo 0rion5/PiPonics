@@ -28,7 +28,7 @@
                <li>Your Done!!</li>
            </ul>
         </p>
-        <h2 id="Hardware Setup">Hardware Setup</h2>
+        <h2 id="Section3">Hardware Setup</h2>
         <p>
             For this project I used a raspberry pi 3b. However, any pi should work the same. I also used a saintsmart 8 channel relay.               Connect the relay to the gpio headers using physical pin numbering as follows;
             <ul>
