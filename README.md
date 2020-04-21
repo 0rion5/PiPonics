@@ -8,8 +8,8 @@
         <h2>Table of Contents</h2>
         <ul>
             <li><a href="#section1">Installation</a></h2>
-            <li><a href="#section2">Section 2</a></h2>
-            <li><a href="#section3">Section 3</a></h2>
+            <li><a href="#section2">Usage</a></h2>
+            <li><a href="#section3">Hardware Setup</a></h2>
         </ul>
         <h2 id="Section1">Installation</h2>
         <p>
@@ -30,9 +30,9 @@
                <li>Your Done!!</li>
            </ul>
         </p>
-        <h2 id="Section3">Section 3</h2>
+        <h2 id="Hardware Setup">Section 3</h2>
         <p>
-            Paragraph Three
+            Coming Soon!
         </p>
     </body>
 </html>
