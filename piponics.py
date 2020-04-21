@@ -73,18 +73,22 @@ class PiPonics:
     def valve_one_open(self):
         for i in self.pins[0::2]:
             system('gpio -1 write '+str(i)+' 1')
+            print('Valve one opened')
 
     def valve_one_closed(self):
         for i in self.pins[0::2]:
             system('gpio -1 write '+str(i)+' 0')
+            print('Valve one closed')
 
     def valve_two_open(self):
         for i in self.pins[1::1]:
             system('gpio -1 write '+str(i)+' 1')
+            print('Valve two opened')
 
     def valve_two_closed(self):
         for i in self.pins[1::1]:
             system('gpio -1 write '+str(i)+' 0')
+            print('Valve two closed')
 
     def watering_cycle(self, valve_one_time, wait_time, valve_two_time, cycle_count):
 
