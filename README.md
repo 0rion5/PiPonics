@@ -28,7 +28,7 @@
                <li>Your Done!!</li>
            </ul>
         </p>
-        <h2 id="Hardware Setup">Section 3</h2>
+        <h2 id="Hardware Setup">Hardware Setup</h2>
         <p>
             Coming Soon!
         </p>
