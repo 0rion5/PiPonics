@@ -14,7 +14,7 @@
         <h2 id="Section1">Installation</h2>
         <p>
             <ul>
-                <li>open terminal and navigate to /home/pi/</li>
+                <p>open terminal and navigate to /home/pi/</p>
                 <li>git clone https://github.com/0rion5/PiPonics.git</li>
             </ul>
         </p>
