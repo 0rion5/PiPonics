@@ -1,5 +1,5 @@
 
-#!/usr/bin/env python3
+#!/usr/bin/env python 3
 
 # Copyright (c) 2020 PiPonics, Inc.
 # Author: 0rion5 B3lt
@@ -24,6 +24,7 @@
 
 import datetime as dt
 import logging
+import logging.handlers
 from time import sleep
 from os import system
 
@@ -72,37 +73,32 @@ class PiPonics:
     def valve_one_open(self):
         for i in self.pins[0::2]:
             system('gpio -1 write '+str(i)+' 1')
-        print('Valve One Open')
 
     def valve_one_closed(self):
         for i in self.pins[0::2]:
             system('gpio -1 write '+str(i)+' 0')
-        print('Valve One Closed')
 
     def valve_two_open(self):
-        for i in self.pins[1::1]
+        for i in self.pins[1::1]:
             system('gpio -1 write '+str(i)+' 1')
-        print('Valve Two Opened')
 
     def valve_two_closed(self):
-        for i in self.pins[1::1]
+        for i in self.pins[1::1]:
             system('gpio -1 write '+str(i)+' 0')
-        print('Valve Two Closed')
 
     def watering_cycle(self, valve_one_time, wait_time, valve_two_time, cycle_count):
 
         logger = self.start_logger(
             self.log_file, self.max_bytes, self.backup_count)
 
-        for i in range(1, self.cycle_count):
-
+        for i in range(1, self.cycle_count+1):
                                                                             # Cycle Start
             print('Cycle: '+str(i))                                         # Print Cycle Count
             logger.info(self.time + ' Starting Cycle ' + str(i))            # Log Cycle Count
 
                                                                             # Valve One Cycle Start
             logger.info(self.time + ' Valve One Opened')                    # Log Valve One Opened
-            self.valve_one_open()                                           # OPEN VALVE ONE HERE
+            self.valve_one_open()                                           # OPEN VALVE ONE HERE            
 
                                                                             # Hold Valve One Open
             sleep(self.valve_one_time*60)                                   # Valve One Timer
@@ -116,14 +112,14 @@ class PiPonics:
 
                                                                             # Valve Two Cycle
             logger.info(self.time + ' Valve Two Open')                      # Log Valve Two Opened
-            self.valve_two_open()                                           # OPEN VALVE TWO HERE
+            self.valve_two_open()                                           # OPEN VALVE TWO HERE            
 
                                                                             # Hold Valve Two Open
             sleep(self.valve_two_time*60)                                   # Valve Two Timer
 
                                                                             # Valve Two Cycle End
             logger.info(self.time + ' Valve Two Closed')                    # Log Valve Two Closed
-            self.valve_two_closed()                                         # CLOSE VALVE TWO HERE
+            self.valve_two_closed()                                         # CLOSE VALVE TWO HERE            
 
                                                                             # Wait Period
             sleep(self.wait_time*60)                                        # Wait For Growbed To Drain
@@ -134,14 +130,15 @@ class PiPonics:
 
 
 if __name__ == "__main__":
-    log_file       = '/home/pi/PiPonics/logs/PiPonics.log'
-    max_bytes      = 500000
-    backup_count   = 50
-    valve_one_time = 0.5  # Seconds
-    valve_two_time = 0.5  # Seconds
-    wait_time      = 0.5  # Seconds
-    cycle_count    = 99999
-    pins           = [36, 38, 40]
+    log_file       = '/home/pi/PiPonics/logs/PiPonics.log'  # log file directory
+    max_bytes      = 500000                                 # max bytes
+    backup_count   = 50                                     # backup count
+    valve_one_time = 0.01                                    # valve one minutes
+    valve_two_time = 0.01                                    # valve two minutes
+    wait_time      = 0.01                                    # wait time minutes
+    cycle_count    = 5                                  # cycle count 
+    pins           = [36, 38, 40]                           # gpio pins physical pin numbering
+    
     ponics         = PiPonics(log_file, max_bytes, backup_count,
                       valve_one_time, valve_two_time, wait_time, cycle_count, pins)
     ponics.watering_cycle(ponics.valve_one_time, ponics.wait_time,
