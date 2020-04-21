@@ -30,7 +30,7 @@
         </p>
         <h2 id="Section3">Hardware Setup</h2>
         <p>
-            For this project I used a raspberry pi 3b. However, any pi should work the same. I also used a saintsmart 8 channel relay.               Connect the relay to the gpio headers using physical pin numbering as follows;
+            For this project I used a raspberry pi 3b. However, any pi should work the same. I used a Sainsmart 8 channel relay, with               the intention that at some point i could easily expand the number of valves simply by creating another instance of the                   PiPonics object inside of piponics.py.Connect the relay to the gpio headers using physical pin numbering as follows;
             <table>
                 <tr>
                     <th>Growbed</th>
