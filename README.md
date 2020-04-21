@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Aquaponics W/ Raspberry Pi 3/4</title>
+        <h1>Aquaponics W/ Raspberry Pi 3/4</h1>
     </head>
     <body>
         <h2>Table of Contents</h2>
