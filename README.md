@@ -7,22 +7,28 @@
     <body>
         <h2>Table of Contents</h2>
         <ul>
-            <li><a href="#section1">Section 1 - Installation</a></h2>
+            <li><a href="#section1">Installation</a></h2>
             <li><a href="#section2">Section 2</a></h2>
             <li><a href="#section3">Section 3</a></h2>
         </ul>
-        <h2 id="Section1">Section 1</h2>
+        <h2 id="Section1">Installation</h2>
         <p>
             <ul>
-                <li>Open Terminal</li>
+                <li>open terminal and navigate to /home/pi/</li>
                 <li>git clone https://github.com/0rion5/PiPonics.git</li>
-                <li></li>
-                <li></li>
+                <li>cd PiPonics</li>
+                <li>mkdir logs</li>
             </ul>
         </p>
-        <h2 id="Section2">Section 2</h2>
+        <h2 id="Section2">Usage</h2>
         <p>
-           Paragraph Two
+           <ul>
+               <li>sudo nano /etc/rc.local</li>
+               <li>add this line above exit 0 "python3 /home/pi/PiPonics/piponics.py"</li>
+               <li>ctrl-x and yes then enter</li>
+               <li>sudo reboot</li>     
+               <li>Your Done!!</li>
+           </ul>
         </p>
         <h2 id="Section3">Section 3</h2>
         <p>
