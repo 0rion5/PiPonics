@@ -16,8 +16,6 @@
             <ul>
                 <li>open terminal and navigate to /home/pi/</li>
                 <li>git clone https://github.com/0rion5/PiPonics.git</li>
-                <li>cd PiPonics</li>
-                <li>mkdir logs</li>
             </ul>
         </p>
         <h2 id="Section2">Usage</h2>
