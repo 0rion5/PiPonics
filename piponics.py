@@ -1,5 +1,5 @@
 
-#!/usr/bin/env python 3
+#!/usr/bin/env python3
 
 # Copyright (c) 2020 PiPonics, Inc.
 # Author: 0rion5 B3lt
@@ -70,22 +70,24 @@ class PiPonics:
         return logger
 
     def valve_one_open(self):
-        system('gpio -1 write '+str(self.pins[0])+' 1')
+        for i in self.pins[0::2]:
+            system('gpio -1 write '+str(i)+' 1')
+        print('Valve One Open')
 
     def valve_one_closed(self):
-        system('gpio -1 write '+str(self.pins[0])+' 0')
+        for i in self.pins[0::2]:
+            system('gpio -1 write '+str(i)+' 0')
+        print('Valve One Closed')
 
     def valve_two_open(self):
-        system('gpio -1 write '+str(self.pins[1])+' 1')
+        for i in self.pins[1::1]
+            system('gpio -1 write '+str(i)+' 1')
+        print('Valve Two Opened')
 
     def valve_two_closed(self):
-        system('gpio -1 write '+str(self.pins[1])+' 0')
-
-    def pump_on(self):
-        system('gpio -1 write '+str(self.pins[2])+' 1')
-
-    def pump_off(self):
-        system('gpio -1 write '+str(self.pins[2])+' 0')
+        for i in self.pins[1::1]
+            system('gpio -1 write '+str(i)+' 0')
+        print('Valve Two Closed')
 
     def watering_cycle(self, valve_one_time, wait_time, valve_two_time, cycle_count):
 
@@ -101,14 +103,12 @@ class PiPonics:
                                                                             # Valve One Cycle Start
             logger.info(self.time + ' Valve One Opened')                    # Log Valve One Opened
             self.valve_one_open()                                           # OPEN VALVE ONE HERE
-            self.pump_on()                                                  # PUMP ON HERE
 
                                                                             # Hold Valve One Open
             sleep(self.valve_one_time*60)                                   # Valve One Timer
                                                                             # Valve One Cycle End
 
             logger.info(self.time + ' Valve One Closed')                    # Log Valve One Closed
-            self.pump_off()                                                 # PUMP OFF HERE
             self.valve_one_closed()                                         # CLOSE VALVE ONE HERE
 
                                                                             # Wait Period
@@ -117,7 +117,6 @@ class PiPonics:
                                                                             # Valve Two Cycle
             logger.info(self.time + ' Valve Two Open')                      # Log Valve Two Opened
             self.valve_two_open()                                           # OPEN VALVE TWO HERE
-            self.pump_on()                                                  # PUMP ON HERE
 
                                                                             # Hold Valve Two Open
             sleep(self.valve_two_time*60)                                   # Valve Two Timer
@@ -125,7 +124,6 @@ class PiPonics:
                                                                             # Valve Two Cycle End
             logger.info(self.time + ' Valve Two Closed')                    # Log Valve Two Closed
             self.valve_two_closed()                                         # CLOSE VALVE TWO HERE
-            self.pump_off()                                                 # PUMP OFF HERE
 
                                                                             # Wait Period
             sleep(self.wait_time*60)                                        # Wait For Growbed To Drain
