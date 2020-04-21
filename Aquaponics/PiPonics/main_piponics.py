@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python 3
 
 # Copyright (c) 2020 PiPonics, Inc.
