@@ -33,18 +33,28 @@
             For this project I used a raspberry pi 3b. However, any pi should work the same. I also used a saintsmart 8 channel relay.               Connect the relay to the gpio headers using physical pin numbering as follows;
             <table>
                 <tr>
-                    <th>VCC</th>
-                    <th>in1</th>
-                    <th>in2</th>
-                    <th>in3</th>
-                    <th>GND</th>
+                    <th>Growbed</th>
+                    <th>Power</th>
+                    <th>Pump</th>
+                    <th>Valve One</th>
+                    <th>Valve Two</th>
+                    <th>Ground</th>
                 </tr>
                 <tr>
+                    <td>Relay</td>
+                    <td>VCC</td>
+                    <td>in1</td>
+                    <td>in2</td>
+                    <td>in3</td>
+                    <td>GND</td>
+                </tr>
+                <tr>
+                    <td>GPIO</td>
                     <td>5v</td>
                     <td>36</td>
                     <td>38</td>
                     <td>40</td>
-                    <td>GN</td>
+                    <td>GND</td>
                 </tr>
             </table>
             <p>
