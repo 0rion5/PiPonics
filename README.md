@@ -66,7 +66,7 @@
                     <img src = "https://cdn.shopify.com/s/files/1/1978/9859/products/09_12_1024x1024.jpg?v=1502520966" width = "50%">
             </p>
             <p>
-                h3>Wiring Diagram</h3>
+                <h3>Wiring Diagram</h3>
                     <img src ="https://github.com/0rion5/PiPonics/blob/master/PiPonics_Wiring_diagram_schem.jpg?raw=true" width ="50%">
             </p>
         </p>
