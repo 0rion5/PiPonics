@@ -2,9 +2,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <h1 style="color:blue;text-align-center;">Aquaponics w/ Raspberry Pi 3/4</h1>
+        <h1>Aquaponics w/ Raspberry Pi 3/4</h1>
     </head>
     <body>
+        <h1 style="color:blue;text-align-center;">PiPonics</h1>
         <h2>Table of Contents</h2>
         <ul>
             <li><a href="#section1">Installation</a></li>
