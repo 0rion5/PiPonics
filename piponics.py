@@ -90,7 +90,7 @@ class PiPonics:
             system('gpio -1 write '+str(i)+' 0')
             print('Valve two closed')
 
-    def watering_cycle(self, valve_one_time, wait_time, valve_two_time, cycle_count):
+    def watering_cycle(self):
 
         logger = self.start_logger(
             self.log_file, self.max_bytes, self.backup_count)
@@ -145,5 +145,4 @@ if __name__ == "__main__":
     
     ponics         = PiPonics(log_file, max_bytes, backup_count,
                       valve_one_time, valve_two_time, wait_time, cycle_count, pins)
-    ponics.watering_cycle(ponics.valve_one_time, ponics.wait_time,
-                          ponics.valve_two_time, ponics.cycle_count)
+    ponics.watering_cycle()
