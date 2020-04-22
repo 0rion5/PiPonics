@@ -58,11 +58,11 @@
                 </tr>
             </table>
             <p>
-                <h3>Raspberry Pi 3b pinout</h3>
-                <img src="https://i.pinimg.com/originals/84/46/ec/8446eca5728ebbfa85882e8e16af8507.png" width = "50%">
+                <h3 id = "Pinout">Raspberry Pi 3b pinout</h3>
+                    <img src="https://i.pinimg.com/originals/84/46/ec/8446eca5728ebbfa85882e8e16af8507.png" width = "50%">
             </p>
             <p>
-                <h3>Sainsmart 8 Channel Relay<h3/>
+                <h3 id = "Relay">Sainsmart 8 Channel Relay<h3/>
                     <img src = "https://cdn.shopify.com/s/files/1/1978/9859/products/09_12_1024x1024.jpg?v=1502520966" width = "50%">
             </p>
             <p>
