@@ -35,9 +35,9 @@
                 <tr>
                     <th>Growbed</th>
                     <th>Power</th>
-                    <th>Pump</th>
                     <th>Valve One</th>
                     <th>Valve Two</th>
+                    <th>Pump</th>
                     <th>Ground</th>
                 </tr>
                 <tr>
