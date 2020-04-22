@@ -7,9 +7,9 @@
     <body>
         <h2>Table of Contents</h2>
         <ul>
-            <li><a href="#section1">Installation</a></h2>
-            <li><a href="#section2">Usage</a></h2>
-            <li><a href="#section3">Hardware Setup</a></h2>
+            <li><a href="#section1">Installation</a></li>
+            <li><a href="#section2">Usage</a></li>
+            <li><a href="#section3">Hardware Setup</a></li>
         </ul>
         <h2 id="Section1">Installation</h2>
         <p>
