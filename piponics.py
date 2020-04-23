@@ -33,116 +33,103 @@ class PiPonics:
 
     def __init__(self, log_file, max_bytes, backup_count, valve_one_time, valve_two_time, wait_time, cycle_count, pins):
 
-        self.log_file = log_file
-        self.max_bytes = max_bytes
-        self.backup_count = backup_count
-        self.valve_one_time = valve_one_time
-        self.valve_two_time = valve_two_time
-        self.wait_time = wait_time
-        self.cycle_count = cycle_count
-        self.pins = pins
+        self.log_file = log_file                                            # set log file attribute
+        self.max_bytes = max_bytes                                          # set max bytes attribute
+        self.backup_count = backup_count                                    # set backup count attribute
+        self.valve_one_time = valve_one_time                                # set valve one attribute
+        self.valve_two_time = valve_two_time                                # set valve two attribute
+        self.wait_time = wait_time                                          # set wait time attribute
+        self.cycle_count = cycle_count                                      # set cycle count attribute
+        self.pins = pins                                                    # set the pins to be used
 
         for i in self.pins:
-            system('gpio -1 mode '+str(i)+' out')
+            system('gpio -1 mode '+str(i)+' out')                           # Execute the command (a string) in a subshell
 
     @property
     def time(self):
-        return dt.datetime.now().strftime(' %Y-%m-%d %I:%M:%S %p ')
+        return dt.datetime.now().strftime(' %Y-%m-%d %I:%M:%S %p ')         # a string representing the date and time
 
     def start_logger(self, file_name, max_bytes, backup_count):
 
-        # Create instance logger
-        logger = logging.getLogger(__name__)
-        logger.setLevel(logging.INFO)
-
-        # create file handler which logs even debug messages
+                                                                            
+        logger = logging.getLogger(__name__)                                # return logger of the current module
+        logger.setLevel(logging.INFO)                                       # set the logging level of this logger                                                                            
         handler = logging.handlers.RotatingFileHandler(
-            file_name, 'w', max_bytes, backup_count)
-        handler.setLevel(logging.INFO)
-
-        # create formatter and add it to the handlers
+            file_name, 'w', max_bytes, backup_count)                        # The specified file is opened and used as the stream for logging.
+        handler.setLevel(logging.INFO)                                      # set the logging level for this handler                                                                         
         formatter = logging.Formatter(
-            '%(levelname)s - %(name)s - %(message)s')
-        handler.setFormatter(formatter)
+            '%(levelname)s - %(name)s - %(message)s')                       # create formatter and add it to the handlers
+        handler.setFormatter(formatter)                                     # set the Formatter for this handler                                                                  
+        logger.addHandler(handler)                                          # adds the Specified handler to this logger
 
-        # add the handlers to logger
-        logger.addHandler(handler)
+        return logger                                                       # return logger
 
-        return logger
+    def valve_one_open(self):                                               # valve one open
+        for i in self.pins[0::2]:                                           # for pins[0] and pins[2]
+            system('gpio -1 write '+str(i)+' 1')                            # write gpio pins[i] on
+            print('Valve one opened')                                       # print to terminal
 
-    def valve_one_open(self):
-        for i in self.pins[0::2]:
-            system('gpio -1 write '+str(i)+' 1')
-            print('Valve one opened')
+    def valve_one_closed(self):                                             # valve one closed                                                         
+        for i in self.pins[0::2]:                                           # for pins[0] and pins[2]
+            system('gpio -1 write '+str(i)+' 0')                            # write gpio pins[i] off 
+            print('Valve one closed')                                       # print to terminal
 
-    def valve_one_closed(self):
-        for i in self.pins[0::2]:
-            system('gpio -1 write '+str(i)+' 0')
-            print('Valve one closed')
+    def valve_two_open(self):                                               # valve two open
+        for i in self.pins[1::1]:                                           # for pins[0] and pins[1]   
+            system('gpio -1 write '+str(i)+' 1')                            # write gpio pins[i] on
+            print('Valve two opened')                                       # print to terminal
 
-    def valve_two_open(self):
-        for i in self.pins[1::1]:
-            system('gpio -1 write '+str(i)+' 1')
-            print('Valve two opened')
-
-    def valve_two_closed(self):
-        for i in self.pins[1::1]:
-            system('gpio -1 write '+str(i)+' 0')
-            print('Valve two closed')
+    def valve_two_closed(self):                                             # valve two closed
+        for i in self.pins[1::1]:                                           # for pins[0] and pins[1]
+            system('gpio -1 write '+str(i)+' 0')                            # write gpio pins[i] off
+            print('Valve two closed')                                       # print to terminal
 
     def watering_cycle(self):
 
         logger = self.start_logger(
-            self.log_file, self.max_bytes, self.backup_count)
+            self.log_file, self.max_bytes, self.backup_count)               # Create logging instance
 
         for i in range(1, self.cycle_count+1):
                                                                             # Cycle Start
             print('Cycle: '+str(i))                                         # Print Cycle Count
             logger.info(self.time + ' Starting Cycle ' + str(i))            # Log Cycle Count
-
-                                                                            # Valve One Cycle Start
+            
             logger.info(self.time + ' Valve One Opened')                    # Log Valve One Opened
-            self.valve_one_open()                                           # OPEN VALVE ONE HERE            
-
-                                                                            # Hold Valve One Open
+            self.valve_one_open()                                           # OPEN VALVE ONE HERE
+            
             sleep(self.valve_one_time*60)                                   # Valve One Timer
-                                                                            # Valve One Cycle End
-
+            
             logger.info(self.time + ' Valve One Closed')                    # Log Valve One Closed
             self.valve_one_closed()                                         # CLOSE VALVE ONE HERE
-
-                                                                            # Wait Period
+            
             sleep(self.wait_time*60)                                        # Wait For Growbed to Drain
-
-                                                                            # Valve Two Cycle
-            logger.info(self.time + ' Valve Two Open')                      # Log Valve Two Opened
-            self.valve_two_open()                                           # OPEN VALVE TWO HERE            
-
-                                                                            # Hold Valve Two Open
+            
+            logger.info(self.time + ' Valve Two Opened')                    # Log Valve Two Opened
+            self.valve_two_open()                                           # OPEN VALVE TWO HERE
+            
             sleep(self.valve_two_time*60)                                   # Valve Two Timer
-
-                                                                            # Valve Two Cycle End
+            
             logger.info(self.time + ' Valve Two Closed')                    # Log Valve Two Closed
-            self.valve_two_closed()                                         # CLOSE VALVE TWO HERE            
-
-                                                                            # Wait Period
+            self.valve_two_closed()                                         # CLOSE VALVE TWO HERE
+            
             sleep(self.wait_time*60)                                        # Wait For Growbed To Drain
             
-                                                                            # Cycle End
             print("Done\n")                                                 # Print Cycle Is Done
             logger.info(self.time + ' Cycle ' + str(i) + ' Complete\n')     # Log Cycle Complete
 
 
 if __name__ == "__main__":
-    log_file       = '/home/pi/PiPonics/logs/PiPonics.log'  # log file directory
-    max_bytes      = 500000                                 # max bytes
-    backup_count   = 50                                     # backup count
-    valve_one_time = 0.01                                    # valve one minutes
-    valve_two_time = 0.01                                    # valve two minutes
-    wait_time      = 0.01                                    # wait time minutes
-    cycle_count    = 5                                  # cycle count 
-    pins           = [36, 38, 40]                           # gpio pins physical pin numbering
+    log_file       = 'logs\\PiPonics.log'                                   # log file directory
+    max_bytes      = 500000                                                 # max bytes
+    backup_count   = 50                                                     # backup count
+    valve_one_time = 0.01                                                   # valve one minutes
+    valve_two_time = 0.01                                                   # valve two minutes
+    wait_time      = 0.01                                                   # wait time minutes
+    cycle_count    = 1                                                      # cycle count 
+    pins           = [36, 38, 40]                                           # gpio pins physical pin numbering
     
     ponics         = PiPonics(log_file, max_bytes, backup_count,
                       valve_one_time, valve_two_time, wait_time, cycle_count, pins)
     ponics.watering_cycle()
+
+# %%
