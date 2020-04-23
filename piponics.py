@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python 3
 
 # Copyright (c) 2020 PiPonics, Inc.
@@ -121,15 +120,16 @@ class PiPonics:
 if __name__ == "__main__":
     log_file       = 'logs\\PiPonics.log'                                   # log file directory
     max_bytes      = 500000                                                 # max bytes
-    backup_count   = 50                                                     # backup count
-    valve_one_time = 0.01                                                   # valve one minutes
-    valve_two_time = 0.01                                                   # valve two minutes
-    wait_time      = 0.01                                                   # wait time minutes
-    cycle_count    = 1                                                      # cycle count 
+    backup_count   = 5                                                      # backup count
+    valve_one_time = 0.5                                                    # valve one minutes
+    valve_two_time = 0.5                                                    # valve two minutes
+    wait_time      = 0.5                                                    # wait time minutes
+    cycle_count    = 9999                                                   # cycle count 
     pins           = [36, 38, 40]                                           # gpio pins physical pin numbering
     
     ponics         = PiPonics(log_file, max_bytes, backup_count,
-                      valve_one_time, valve_two_time, wait_time, cycle_count, pins)
+                      valve_one_time, valve_two_time, wait_time, cycle_count,
+                              pins)
     ponics.watering_cycle()
 
 # %%
