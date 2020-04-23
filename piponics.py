@@ -48,9 +48,7 @@ class PiPonics:
     def time(self):
         return dt.datetime.now().strftime(' %Y-%m-%d %I:%M:%S %p ')         # a string representing the date and time
 
-    def start_logger(self, file_name, max_bytes, backup_count):
-
-                                                                            
+    def start_logger(self, file_name, max_bytes, backup_count):                                                                        
         logger = logging.getLogger(__name__)                                # return logger of the current module
         logger.setLevel(logging.INFO)                                       # set the logging level of this logger                                                                            
         handler = logging.handlers.RotatingFileHandler(
@@ -84,7 +82,6 @@ class PiPonics:
             print('Valve two closed')                                       # print to terminal
 
     def watering_cycle(self):
-
         logger = self.start_logger(
             self.log_file, self.max_bytes, self.backup_count)               # Create logging instance
 
