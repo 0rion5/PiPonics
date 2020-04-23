@@ -131,5 +131,3 @@ if __name__ == "__main__":
                       valve_one_time, valve_two_time, wait_time, cycle_count,
                               pins)
     ponics.watering_cycle()
-
-# %%
