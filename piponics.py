@@ -26,7 +26,7 @@ import logging
 import logging.handlers
 from time import sleep
 from os import system
-
+import serial
 
 class PiPonics:
 
@@ -47,7 +47,12 @@ class PiPonics:
     @property
     def time(self):
         return dt.datetime.now().strftime(' %Y-%m-%d %I:%M:%S %p ')         # a string representing the date and time
-
+    @property
+    def soil_moisture_sensor(self):
+        #ser = serial.Serial('/dev/ttyACM0', 9600)
+        serial_read = str(serial.Serial('/dev/ttyACM0', 9600).readline()).replace("b'","").replace("\\r\\n'","")
+        return serial_read
+    
     def start_logger(self, file_name, max_bytes, backup_count):                                                                        
         logger = logging.getLogger(__name__)                                # return logger of the current module
         logger.setLevel(logging.INFO)                                       # set the logging level of this logger                                                                            
@@ -90,7 +95,8 @@ class PiPonics:
             print('Cycle: '+str(i))                                         # Print Cycle Count
             logger.info(self.time + ' Starting Cycle ' + str(i))            # Log Cycle Count
             
-            logger.info(self.time + ' Valve One Opened')                    # Log Valve One Opened
+            logger.info(self.time + ' Valve One Opened')
+            logger.info(self.time + ' ' + self.soil_moisture_sensor)                   # Log Valve One Opened
             self.valve_one_open()                                           # OPEN VALVE ONE HERE
             
             sleep(self.valve_one_time*60)                                   # Valve One Timer
@@ -115,16 +121,27 @@ class PiPonics:
 
 
 if __name__ == "__main__":
-    log_file       = 'logs\\PiPonics.log'                                   # log file directory
+    log_file       = '/home/pi/Documents/projects/PiPonics/logs/PiPonics.log'                                   # log file directory
     max_bytes      = 500000                                                 # max bytes
     backup_count   = 5                                                      # backup count
-    valve_one_time = 0.5                                                    # valve one minutes
-    valve_two_time = 0.5                                                    # valve two minutes
-    wait_time      = 0.5                                                    # wait time minutes
+    valve_one_time = 0.05                                                    # valve one minutes
+    valve_two_time = 0.05                                                    # valve two minutes
+    wait_time      = 0.05                                                    # wait time minutes
     cycle_count    = 9999                                                   # cycle count 
     pins           = [36, 38, 40]                                           # gpio pins physical pin numbering
     
     ponics         = PiPonics(log_file, max_bytes, backup_count,
                       valve_one_time, valve_two_time, wait_time, cycle_count,
                               pins)
-    ponics.watering_cycle()
+    try:                          
+        #ponics.watering_cycle()
+        soil_data_list = []
+        print(ponics.time)
+        for i in range(0,1000):
+            soil_data_list.append(ponics.soil_moisture_sensor)
+            print(ponics.soil_moisture_sensor)
+            sleep(0.1)
+    except KeyboardInterrupt:
+        for i in ponics.pins:
+            system('gpio -1 write '+str(i)+' 0')
+            print('not water cycling')
