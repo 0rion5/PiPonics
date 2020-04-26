@@ -71,17 +71,14 @@ class PiPonics:
     def valve_one_closed(self):                                             # valve one closed                                                         
         for i in self.pins[0::2]:                                           # for pins[0] and pins[2]
             system('gpio -1 write '+str(i)+' 0')                            # write gpio pins[i] off 
-            print('Valve one closed')                                       # print to terminal
 
     def valve_two_open(self):                                               # valve two open
         for i in self.pins[1::1]:                                           # for pins[0] and pins[1]   
             system('gpio -1 write '+str(i)+' 1')                            # write gpio pins[i] on
-            print('Valve two opened')                                       # print to terminal
 
     def valve_two_closed(self):                                             # valve two closed
         for i in self.pins[1::1]:                                           # for pins[0] and pins[1]
             system('gpio -1 write '+str(i)+' 0')                            # write gpio pins[i] off
-            print('Valve two closed')                                       # print to terminal
 
     def watering_cycle(self):
         logger = self.start_logger(
@@ -134,9 +131,14 @@ if __name__ == "__main__":
         #ponics.watering_cycle()
         soil_data_list = []
         print(ponics.time)
-        for i in range(0,1000):
-            soil_data_list.append(ponics.soil_moisture_sensor)
+        for i in range(0,100):
+            soil_moisture = int(ponics.soil_moisture_sensor)
+            soil_data_list.append(soil_moisture)
             print(ponics.soil_moisture_sensor)
+            if soil_moisture > 450:
+                ponics.valve_one_open()
+            elif soil_moisture < 300:
+                ponics.valve_one_closed()
             sleep(0.1)
     except KeyboardInterrupt:
         for i in ponics.pins:
