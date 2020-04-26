@@ -47,6 +47,7 @@ class PiPonics:
     @property
     def time(self):
         return dt.datetime.now().strftime(' %Y-%m-%d %I:%M:%S %p ')         # a string representing the date and time
+    
     @property
     def soil_moisture_sensor(self):
         #ser = serial.Serial('/dev/ttyACM0', 9600)
