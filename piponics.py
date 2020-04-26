@@ -29,9 +29,7 @@ from os import system
 import serial
 
 class PiPonics:
-
     def __init__(self, log_file, max_bytes, backup_count, valve_one_time, valve_two_time, wait_time, cycle_count, pins):
-
         self.log_file = log_file                                            # set log file attribute
         self.max_bytes = max_bytes                                          # set max bytes attribute
         self.backup_count = backup_count                                    # set backup count attribute
@@ -40,7 +38,6 @@ class PiPonics:
         self.wait_time = wait_time                                          # set wait time attribute
         self.cycle_count = cycle_count                                      # set cycle count attribute
         self.pins = pins                                                    # set the pins to be used
-
         for i in self.pins:
             system('gpio -1 mode '+str(i)+' out')                           # Execute the command (a string) in a subshell
 
@@ -64,7 +61,6 @@ class PiPonics:
             '%(levelname)s - %(name)s - %(message)s')                       # create formatter and add it to the handlers
         handler.setFormatter(formatter)                                     # set the Formatter for this handler                                                                  
         logger.addHandler(handler)                                          # adds the Specified handler to this logger
-
         return logger                                                       # return logger
 
     def valve_one_open(self):                                               # valve one open
