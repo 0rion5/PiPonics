@@ -29,7 +29,7 @@ from os import system
 import serial
 
 class PiPonics:
-    def __init__(self, log_file, max_bytes, backup_count, valve_one_time, valve_two_time, wait_time, cycle_count, pins):
+    def __init__(self, log_file, max_bytes, backup_count, pins):
         self.log_file = log_file                                            # set log file attribute
         self.max_bytes = max_bytes                                          # set max bytes attribute
         self.backup_count = backup_count                                    # set backup count attribute
@@ -47,8 +47,8 @@ class PiPonics:
     
     @property
     def soil_moisture_sensor(self):
-        #ser = serial.Serial('/dev/ttyACM0', 9600)
-        serial_read = str(serial.Serial('/dev/ttyACM0', 9600).readline()).replace("b'","").replace("\\r\\n'","")
+        ser = serial.Serial('/dev/ttyACM0', 9600)
+        serial_read = str(ser.readline()).replace("b'","").replace("\\r\\n'","")
         return serial_read
     
     def start_logger(self, file_name, max_bytes, backup_count):                                                                        
@@ -60,16 +60,16 @@ class PiPonics:
         formatter = logging.Formatter(
             '%(levelname)s - %(name)s - %(message)s')                       # create formatter and add it to the handlers
         handler.setFormatter(formatter)                                     # set the Formatter for this handler                                                                  
-        logger.addHandler(handler)                                          # adds the Specified handler to this logger
+        logger.addHandler(handler)                                             # adds the Specified handler to this logger
         return logger                                                       # return logger
 
     def valve_one_open(self):                                               # valve one open
         for i in self.pins[0::2]:                                           # for pins[0] and pins[2]
-            system('gpio -1 write '+str(i)+' 1')                            # write gpio pins[i] on
+            system('gpio -1 write '+str(i)+' 0')                            # write gpio pins[i] on
 
     def valve_one_closed(self):                                             # valve one closed                                                         
         for i in self.pins[0::2]:                                           # for pins[0] and pins[2]
-            system('gpio -1 write '+str(i)+' 0')                            # write gpio pins[i] off 
+            system('gpio -1 write '+str(i)+' 1')                            # write gpio pins[i] off 
 
     def valve_two_open(self):                                               # valve two open
         for i in self.pins[1::1]:                                           # for pins[0] and pins[1]   
@@ -79,7 +79,7 @@ class PiPonics:
         for i in self.pins[1::1]:                                           # for pins[0] and pins[1]
             system('gpio -1 write '+str(i)+' 0')                            # write gpio pins[i] off
 
-    def watering_cycle(self):
+    def watering_cycle(self,valve_one_time, valve_two_time, wait_time, cycle_count):
         logger = self.start_logger(
             self.log_file, self.max_bytes, self.backup_count)               # Create logging instance
 
@@ -111,7 +111,26 @@ class PiPonics:
             
             print("Done\n")                                                 # Print Cycle Is Done
             logger.info(self.time + ' Cycle ' + str(i) + ' Complete\n')     # Log Cycle Complete
-
+    
+    def soil_moisture_cycle(self):
+        try:                          
+            logger = ponics.start_logger(
+                ponics.log_file, ponics.max_bytes, ponics.backup_count)
+            while True:
+                soil_moisture = int(ponics.soil_moisture_sensor)
+                if soil_moisture < 35:
+                    ponics.valve_one_open()
+                    print(ponics.time+" Soil Moisture  "+ponics.soil_moisture_sensor + " Watering")
+                    logger.warning(ponics.time+" Soil Moisture  "+ponics.soil_moisture_sensor + " Watering")            
+                else:
+                    ponics.valve_one_closed()
+                    print(ponics.time+" Soil Moisture  "+ponics.soil_moisture_sensor + " Not Watering")
+                    logger.info(ponics.time+" Soil Moisture  "+ponics.soil_moisture_sensor + " Not Watering")                
+                sleep(0.01)
+        except KeyboardInterrupt:
+            for i in ponics.pins:
+                system('gpio -1 write '+str(i)+' 1')
+                print('not cycling water')
 
 if __name__ == "__main__":
     log_file       = '/home/pi/Documents/projects/PiPonics/logs/PiPonics.log'                                   # log file directory
@@ -123,25 +142,6 @@ if __name__ == "__main__":
     cycle_count    = 9999                                                   # cycle count 
     pins           = [36, 38, 40]                                           # gpio pins physical pin numbering
     
-    ponics         = PiPonics(log_file, max_bytes, backup_count,
-                      valve_one_time, valve_two_time, wait_time, cycle_count,
-                              pins)
-    try:                          
-        #ponics.watering_cycle()
-        print(ponics.time)
-        logger = ponics.start_logger(
-            ponics.log_file, ponics.max_bytes, ponics.backup_count)
-        while True:
-            soil_moisture = int(ponics.soil_moisture_sensor.replace('%',''))
-            print(soil_moisture)
-            if soil_moisture < 80:
-                ponics.valve_one_open()
-                print(ponics.time+" Watering Start "+ponics.soil_moisture_sensor)
-            else:
-                ponics.valve_one_closed()
-                print(ponics.time+" Watering Stop  "+ponics.soil_moisture_sensor)
-            sleep(0.1)
-    except KeyboardInterrupt:
-        for i in ponics.pins:
-            system('gpio -1 write '+str(i)+' 0')
-            print('not cycling water')
+    ponics         = PiPonics(log_file, max_bytes, backup_count,pins)
+    ponics.soil_moisture_cycle()
+    #ponics.watering_cycle(valve_one_time, valve_two_time, wait_time, cycle_count)
