@@ -114,19 +114,22 @@ class PiPonics:
     
     def soil_moisture_cycle(self):
         try:                          
-            logger = ponics.start_logger(
-                ponics.log_file, ponics.max_bytes, ponics.backup_count)
+            logger = self.start_logger(
+                self.log_file, self.max_bytes, self.backup_count)
             while True:
-                soil_moisture = int(ponics.soil_moisture_sensor)
+                try:
+                    soil_moisture = int(self.soil_moisture_sensor)
+                except ValueError:
+                    soil_moisture = str(self.soil_moisture_sensor).replace("\\n'","")
                 if soil_moisture < 35:
-                    ponics.valve_one_open()
-                    print(ponics.time+" Soil Moisture  "+ponics.soil_moisture_sensor + " Watering")
-                    logger.warning(ponics.time+" Soil Moisture  "+ponics.soil_moisture_sensor + " Watering")            
-                else:
-                    ponics.valve_one_closed()
-                    print(ponics.time+" Soil Moisture  "+ponics.soil_moisture_sensor + " Not Watering")
-                    logger.info(ponics.time+" Soil Moisture  "+ponics.soil_moisture_sensor + " Not Watering")                
-                sleep(0.01)
+                    self.valve_one_open()
+                    print(self.time+" Soil Moisture  "+self.soil_moisture_sensor + " Watering")
+                    logger.warning(self.time+" Soil Moisture  "+self.soil_moisture_sensor + "% Watering")            
+                elif soil_moisture > 35:
+                    self.valve_one_closed()
+                    print(self.time+" Soil Moisture  "+self.soil_moisture_sensor + " Not Watering")
+                    #logger.info(self.time+" Soil Moisture  "+self.soil_moisture_sensor + "% Not Watering")                
+                sleep(5)
         except KeyboardInterrupt:
             for i in ponics.pins:
                 system('gpio -1 write '+str(i)+' 1')
